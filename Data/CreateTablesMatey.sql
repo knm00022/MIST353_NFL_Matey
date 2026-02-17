@@ -39,7 +39,7 @@ Create TABLE Team (
     constraint PK_Team PRIMARY KEY, -- this is the primary key for the table, it uniquely identifies each team
     TeamName NVARCHAR (50) NOT NULL,
     TeamCityState NVARCHAR (50) NOT NULL,
-    TeamColors NVARCHAR (50) NOT NULL,
+    TeamColors NVARCHAR (100) NOT NULL,
     ConferenceDivisionID INT NOT NULL, -- this is a foreign key that references the ConferenceDivisionID in the ConferenceDivison table
     constraint FK_Team_ConferenceDivision FOREIGN KEY (ConferenceDivisionID) REFERENCES ConferenceDivison -- this is the foreign key constraint, it ensures that the value entered for ConferenceDivisionID in the Team table must exist in the ConferenceDivison table (it creates a relationship between the two tables)
 );
