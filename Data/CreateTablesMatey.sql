@@ -9,13 +9,13 @@ use MIST353_NFL_RDB_Matey;
 
 if(OBJECT_ID('Team') IS NOT NULL) -- this is a check to see if the Team table already exists, if it does, it will drop the table before creating it again (this is useful for testing and development)
 drop table Team;
-if(OBJECT_ID('ConferenceDivison') IS NOT NULL) -- this is a check to see if the ConferenceDivison table already exists, if it does, it will drop the table before creating it again (this is useful for testing and development)
-    drop table ConferenceDivison;
+if(OBJECT_ID('ConferenceDivision') IS NOT NULL) -- this is a check to see if the ConferenceDivision table already exists, if it does, it will drop the table before creating it again (this is useful for testing and development)
+    drop table ConferenceDivision;
 
 -- Create table for first iteration
 go 
 
-Create TABLE ConferenceDivison (
+Create TABLE ConferenceDivision (
     ConferenceDivisionID INT identity (1,1)
     constraint PK_ConferenceDivision PRIMARY KEY,
     Conference NVARCHAR (50) NOT NULL 
@@ -26,10 +26,10 @@ Create TABLE ConferenceDivison (
 
 );
 
--- alter table ConferenceDivison
+-- alter table ConferenceDivision
 --     NOCHECK CONSTRAINT CK_ConferenceNames; -- this is a command to disable the check constraint CK_ConferenceNames, it allows us to insert data that does not meet the check constraint (we will re-enable it after we insert the data)
 
--- alter table ConferenceDivison
+-- alter table ConferenceDivision
 --     CHECK CONSTRAINT CK_DivisionNames; -- this is a command to disable the check constraint CK_DivisionNames, it allows us to insert data that does not meet the check constraint (we will re-enable it after we insert the data)
     
 go
@@ -40,7 +40,7 @@ Create TABLE Team (
     TeamName NVARCHAR (50) NOT NULL,
     TeamCityState NVARCHAR (50) NOT NULL,
     TeamColors NVARCHAR (100) NOT NULL,
-    ConferenceDivisionID INT NOT NULL, -- this is a foreign key that references the ConferenceDivisionID in the ConferenceDivison table
-    constraint FK_Team_ConferenceDivision FOREIGN KEY (ConferenceDivisionID) REFERENCES ConferenceDivison -- this is the foreign key constraint, it ensures that the value entered for ConferenceDivisionID in the Team table must exist in the ConferenceDivison table (it creates a relationship between the two tables)
+    ConferenceDivisionID INT NOT NULL, -- this is a foreign key that references the ConferenceDivisionID in the ConferenceDivision table
+    constraint FK_Team_ConferenceDivision FOREIGN KEY (ConferenceDivisionID) REFERENCES ConferenceDivision -- this is the foreign key constraint, it ensures that the value entered for ConferenceDivisionID in the Team table must exist in the ConferenceDivision table (it creates a relationship between the two tables)
 );
- 
+

@@ -3,8 +3,7 @@
 -- Insert data for AFC North (4 rows) 
 
 use MIST353_NFL_RDB_Matey;
-
-insert into ConferenceDivison (Conference, Division)
+insert into ConferenceDivision(Conference, Division)
 values ('AFC', 'North'),
        ('AFC', 'South'),
        ('AFC', 'East'),
@@ -14,11 +13,11 @@ values ('AFC', 'North'),
        ('NFC', 'East'),
        ('NFC', 'West');
 
-GO 
-select * from ConferenceDivison order by ConferenceDivisionID; -- this is a command to select all the data from the ConferenceDivison table, it allows us to see the data we just inserted (this is useful for testing and development)
+Go
+select * from ConferenceDivision order by ConferenceDivisionID; -- this is a command to select all the data from the ConferenceDivision table, it allows us to see the data we just inserted (this is useful for testing and development)
 
 GO
-insert into Team (TeamName, TeamCityState, TeamColors, ConferenceDivisionID)  
+insert Team (TeamName, TeamCityState, TeamColors, ConferenceDivisionID)
 -- seperated by conference and division for readability, but it is not necessary to do so, you could insert all the data in one statement if you wanted to (but it would be harder to read and maintain)
 values ('Baltimore Ravens', 'Baltimore, MD', 'Purple, Black', 1),
        ('Cleveland Browns', 'Cleveland, OH', 'Brown, White', 1),
@@ -59,3 +58,4 @@ values ('Baltimore Ravens', 'Baltimore, MD', 'Purple, Black', 1),
          ('Los Angeles Rams', 'Los Angeles, CA', 'Royal Blue, Solid Yellow, Solid White, Grey', 8),
          ('San Francisco 49ers', 'San Francisco, CA', 'Red, Solid Gold, Solid White, Grey', 8),
          ('Seattle Seahawks', 'Seattle, WA', 'Navy Blue, Solid Green, Solid White, Grey ', 8);
+
