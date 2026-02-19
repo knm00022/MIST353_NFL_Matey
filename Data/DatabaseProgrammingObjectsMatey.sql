@@ -19,7 +19,7 @@ ORDER BY ConferenceDivisionID, TeamName; -- this is a command to order the resul
 -- Join Team with ConferenceDivision
 SELECT Team.TeamName, Team.TeamCityState, ConferenceDivision.Conference, ConferenceDivision.Division, Team.TeamColors -- this is a command to select the TeamName, TeamCityState, Conference, Division, and TeamColors columns from the Team and ConferenceDivision tables, it allows us to see all the teams along with their conference and division information
 FROM Team -- this is the name of the first table we are selecting from (the Team table)
-INNER JOIN ConferenceDivision -- this is a command to join the Team table with the ConferenceDivision table, it allows us to combine the data from both tables based on a common column (ConferenceDivisionID)
+JOIN ConferenceDivision -- this is a command to join the Team table with the ConferenceDivision table, it allows us to combine the data from both tables based on a common column (ConferenceDivisionID)
     ON Team.ConferenceDivisionID = ConferenceDivision.ConferenceDivisionID -- this is a command to specify the condition for the join, it ensures that we are joining the rows from the Team table with the corresponding rows from the ConferenceDivision table based on the ConferenceDivisionID column
 ORDER BY ConferenceDivision.Conference, ConferenceDivision.Division, Team.TeamName; -- this is a command to order the results by Conference, Division, and TeamName, it allows us to see the teams in a logical order (all the teams in AFC North together, all the teams in AFC South together, etc.)
 
