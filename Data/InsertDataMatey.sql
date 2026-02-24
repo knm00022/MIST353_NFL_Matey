@@ -2,7 +2,8 @@
 -- Insert all the ConferenceDivision data (8 rows) 
 -- Insert data for AFC North (4 rows) 
 
-use MIST353_NFL_RDB_Matey;
+--use MIST353_NFL_RDB_Matey;
+--use [mist353-nfl-matey];
 insert into ConferenceDivision(Conference, Division)
 values ('AFC', 'North'),
        ('AFC', 'South'),

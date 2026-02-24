@@ -4,8 +4,13 @@
 -- --CREATE DATABASE NFL_ROB_Matey;
 -- drop database NFL_ROB_Matey;
 
- -- Create database MIST353_NFL_RDB_Matey;
-use MIST353_NFL_RDB_Matey;
+
+ --Create database MIST353_NFL_RDB_Matey;
+--use MIST353_NFL_RDB_Matey;
+--use [mist353-nfl-matey];
+--use MIST353_NFL_RDB_Matey;
+
+go
 
 if(OBJECT_ID('Team') IS NOT NULL) -- this is a check to see if the Team table already exists, if it does, it will drop the table before creating it again (this is useful for testing and development)
 drop table Team;
