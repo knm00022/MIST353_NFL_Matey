@@ -90,4 +90,25 @@ EXEC dbo.procGetTeamsByConferenceDivision
   @DivisionName = 'North';
 
 
+--Find all teams in my team’s division (user optionally provides their team name)
+DECLARE @TeamName NVARCHAR(50) = NULL;  
 
+SET @TeamName = 'Pittsburgh Steelers';
+
+SELECT
+    t.TeamName,
+    t.TeamColors,
+    cd.Conference,
+    cd.Division
+FROM dbo.Team t
+INNER JOIN dbo.ConferenceDivision cd
+    ON t.ConferenceDivisionID = cd.ConferenceDivisionID
+WHERE t.ConferenceDivisionID = ISNULL(
+          (
+            SELECT ConferenceDivisionID
+            FROM dbo.Team
+            WHERE TeamName = @TeamName
+          ),
+          t.ConferenceDivisionID
+      )
+ORDER BY t.TeamName;
