@@ -91,24 +91,14 @@ EXEC dbo.procGetTeamsByConferenceDivision
 
 
 --Find all teams in my team’s division (user optionally provides their team name)
-DECLARE @TeamName NVARCHAR(50) = NULL;  
+-- Add ConferenceName and DivisionName 
+-- Add Procedure 
+go 
+select * from Team;
+declare @myTeamName nvarchar(50) = 'Pittsburgh Steelers';
+select OtherTeam.TeamName
+from Team MyTeam inner join Team OtherTeam
+on MyTeam.ConferenceDivisionID = OtherTeam.ConferenceDivisionID --this pairs up the teams based on their ConferenceDivisionID, it allows us to find all the teams that are in the same division as the specified team
+where MyTeam.TeamName = @myTeamName -- filters the results to only include rows where the TeamName column in the MyTeam table is equal to the value of the @myTeamName variable, it allows us to find the ConferenceDivisionID for the specified team
+and OtherTeam.TeamName != @myTeamName; -- this is a command to filter the results to only include rows where the TeamName column in the OtherTeam table is equal to the value of the @myTeamName variable, it allows us to find the ConferenceDivisionID for the specified team and then find all other teams that have the same ConferenceDivisionID (i.e., all teams in the same division as the specified team)
 
-SET @TeamName = 'Pittsburgh Steelers';
-
-SELECT
-    t.TeamName,
-    t.TeamColors,
-    cd.Conference,
-    cd.Division
-FROM dbo.Team t
-INNER JOIN dbo.ConferenceDivision cd
-    ON t.ConferenceDivisionID = cd.ConferenceDivisionID
-WHERE t.ConferenceDivisionID = ISNULL(
-          (
-            SELECT ConferenceDivisionID
-            FROM dbo.Team
-            WHERE TeamName = @TeamName
-          ),
-          t.ConferenceDivisionID
-      )
-ORDER BY t.TeamName;
