@@ -92,7 +92,7 @@ EXEC dbo.procGetTeamsByConferenceDivision
 
 --Find all teams in my team’s division (user optionally provides their team name)
 -- Add ConferenceName and DivisionName 
--- Add Procedure 
+
 go 
 select * from Team;
 declare @myTeamName nvarchar(50) = 'Pittsburgh Steelers';
@@ -102,3 +102,23 @@ on MyTeam.ConferenceDivisionID = OtherTeam.ConferenceDivisionID --this pairs up 
 where MyTeam.TeamName = @myTeamName -- filters the results to only include rows where the TeamName column in the MyTeam table is equal to the value of the @myTeamName variable, it allows us to find the ConferenceDivisionID for the specified team
 and OtherTeam.TeamName != @myTeamName; -- this is a command to filter the results to only include rows where the TeamName column in the OtherTeam table is equal to the value of the @myTeamName variable, it allows us to find the ConferenceDivisionID for the specified team and then find all other teams that have the same ConferenceDivisionID (i.e., all teams in the same division as the specified team)
 
+
+--Find all teams in my team’s division (user optionally provides their team name)
+-- Add ConferenceName and DivisionName
+
+go 
+select * from Team;
+declare @myTeamName nvarchar(50) = 'Pittsburgh Steelers';
+select OtherTeam.TeamName, ConferenceDivision.Conference, ConferenceDivision.Division
+from Team MyTeam inner join Team OtherTeam
+on MyTeam.ConferenceDivisionID = OtherTeam.ConferenceDivisionID 
+inner join ConferenceDivision -- this joins the ConferenceDivision table to the results of the previous join, it allows us to get the conference and division information for the teams we are selecting
+on MyTeam.ConferenceDivisionID = ConferenceDivision.ConferenceDivisionID -- this joins the ConferenceDivision table so we can display the Conference and Division names 
+where MyTeam.TeamName = @myTeamName 
+and OtherTeam.TeamName != @myTeamName; 
+
+-- Added: these added the Conference and Division names to the results of the query
+-- select: ConferenceDivision.Conference, ConferenceDivision.Division
+-- inner join ConferenceDivision 
+-- on MyTeam.ConferenceDivisionID = ConferenceDivision.ConferenceDivisionID 
+ 
