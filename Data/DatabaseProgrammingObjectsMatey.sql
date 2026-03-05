@@ -85,13 +85,27 @@ BEGIN
 END;
 GO
 
-EXEC dbo.procGetTeamsByConferenceDivision
-  @ConferenceName = 'AFC',
-  @DivisionName = 'North';
+-- EXEC dbo.procGetTeamsByConferenceDivision
+--   @ConferenceName = 'AFC',
+--   @DivisionName = 'North';
+
 
 
 --Find all teams in my team’s division (user optionally provides their team name)
 -- Add ConferenceName and DivisionName 
+
+CREATE OR ALTER PROCEDURE dbo.procGetTeamsInSameDivisionAsSpecifiedTeam
+(
+    @TeamName NVARCHAR(50)
+)
+AS 
+BEGIN
+
+    SELECT OtherTeam.TeamName
+    FROM Team MyTeam INNER JOIN Team OtherTeam
+    ON MyTeam.ConferenceDivisionID = OtherTeam.ConferenceDivisionID
+    WHERE MyTeam.TeamName = @TeamName AND OtherTeam.TeamName != @TeamName;
+END;
 
 go 
 select * from Team;
@@ -108,7 +122,7 @@ and OtherTeam.TeamName != @myTeamName; -- this is a command to filter the result
 
 go 
 select * from Team;
-declare @myTeamName nvarchar(50) = 'Pittsburgh Steelers';
+declare @myTeamName nvarchar(50) = 'Miami Dolphins';
 select OtherTeam.TeamName, ConferenceDivision.Conference, ConferenceDivision.Division
 from Team MyTeam inner join Team OtherTeam
 on MyTeam.ConferenceDivisionID = OtherTeam.ConferenceDivisionID 
