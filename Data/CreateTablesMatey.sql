@@ -10,6 +10,7 @@
 --use [mist353-nfl-matey];
 --use MIST353_NFL_RDB_Matey;
 
+
 go
 
 if(OBJECT_ID('Team') IS NOT NULL) -- this is a check to see if the Team table already exists, if it does, it will drop the table before creating it again (this is useful for testing and development)

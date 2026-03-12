@@ -2,6 +2,7 @@ import os
 import pyodbc
 from dotenv import load_dotenv
 load_dotenv()   
+
 def get_db_connection():
     server = os.getenv('DB_SERVER')
     database = os.getenv('DB_NAME')
