@@ -94,20 +94,41 @@ GO
 --Find all teams in my team’s division (user optionally provides their team name)
 -- Add ConferenceName and DivisionName 
 
-CREATE OR ALTER PROCEDURE dbo.procGetTeamsInSameDivisionAsSpecifiedTeam
+CREATE OR ALTER PROCEDURE dbo.procGetTeamsInSameConferenceDivisionAsSpecifiedTeam
 (
     @TeamName NVARCHAR(50)
 )
-AS 
+AS
 BEGIN
+    SET NOCOUNT ON;
 
-    SELECT OtherTeam.TeamName
-    FROM Team MyTeam INNER JOIN Team OtherTeam
-    ON MyTeam.ConferenceDivisionID = OtherTeam.ConferenceDivisionID
-    WHERE MyTeam.TeamName = @TeamName AND OtherTeam.TeamName != @TeamName;
+    SELECT OtherTeam.TeamName, CD.Conference, CD.Division
+    FROM dbo.Team MyTeam
+    INNER JOIN dbo.Team OtherTeam
+        ON MyTeam.ConferenceDivisionID = OtherTeam.ConferenceDivisionID
+    INNER JOIN dbo.ConferenceDivision CD
+        ON MyTeam.ConferenceDivisionID = CD.ConferenceDivisionID
+    WHERE MyTeam.TeamName = @TeamName
+      AND OtherTeam.TeamName != @TeamName;
 END;
+GO
+EXEC dbo.procGetTeamsInSameConferenceDivisionAsSpecifiedTeam
+    @TeamName = 'Miami Dolphins';
 
-go 
+-- CREATE OR ALTER PROCEDURE dbo.procGetTeamsInSameDivisionAsSpecifiedTeam
+-- (
+--     @TeamName NVARCHAR(50)
+-- )
+-- AS 
+-- BEGIN
+
+--     SELECT OtherTeam.TeamName
+--     FROM Team MyTeam INNER JOIN Team OtherTeam
+--     ON MyTeam.ConferenceDivisionID = OtherTeam.ConferenceDivisionID
+--     WHERE MyTeam.TeamName = @TeamName AND OtherTeam.TeamName != @TeamName;
+-- END;
+
+-- go 
 select * from Team;
 declare @myTeamName nvarchar(50) = 'Pittsburgh Steelers';
 select OtherTeam.TeamName
