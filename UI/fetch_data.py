@@ -1,5 +1,6 @@
 import streamlit as st
 import requests
+import pandas as pd
 
 FASTAPI_URL = "http://localhost:8000"
 
