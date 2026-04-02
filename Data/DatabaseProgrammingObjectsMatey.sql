@@ -159,17 +159,18 @@ and OtherTeam.TeamName != @myTeamName;
  
  GO
 
- create or alter procedure procValiadeUser
- (
-    @Email NVARCHAR(100),
-    @PasswordHash NVARCHAR(200)
- )
- AS
+ create or alter procedure procValidateUser
+(
+  @Email NVARCHAR(100),
+  @PasswordHash NVARCHAR(200)
+)
+AS
 BEGIN
-    select AppUserID, Firstname, + '' + Lastname as Fullname, UserRole
-    from AppUser
-    where Email = @Email and 
-    PasswordHash = Convert(VARBINARY(200), @PasswordHash)
-END;
--- execute procValiadeUser @Email = 'tom.brady@example.com', @PasswordHash = 0x01;
+  select AppUserID, Firstname + ' ' + Lastname as Fullname, UserRole
+  from AppUser
+  where Email = @Email and 
+PasswordHash = Convert(VARBINARY(200), @PasswordHash, 1);
+
+END
+-- EXEC procValidateUser @Email = 'tom.brady@example.com', @PasswordHash = '0x01';
 

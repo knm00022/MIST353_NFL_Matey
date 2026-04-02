@@ -21,4 +21,3 @@ def validate_user(
         for row in rows
     ]
     return {"data": results}
-   
