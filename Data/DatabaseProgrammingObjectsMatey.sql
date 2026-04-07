@@ -108,13 +108,17 @@ BEGIN
     SELECT 
         T.TeamName, CD.Conference, CD.Division, T.TeamColors
     FROM NFLFan F
+    INNER JOIN FanTeam FT
+        ON F.NFLFanID = FT.NFLFanID
     INNER JOIN Team T
-        ON F.NFLFanID = T.TeamID --this needs fixed
+        ON FT.TeamID = T.TeamID
     INNER JOIN ConferenceDivision CD
         ON T.ConferenceDivisionID = CD.ConferenceDivisionID
     WHERE F.NFLFanID = @NFLFanID;
 END
-GO
+
+-- execute procGetTeamsForSpecifiedFan @NFLFanID = 1;
+-- execute procGetTeamsForSpecifiedFan @NFLFanID = 2;
 
 
 
