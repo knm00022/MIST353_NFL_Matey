@@ -97,9 +97,24 @@ PasswordHash = Convert(VARBINARY(200), @PasswordHash, 1);
 END
 -- EXEC procValidateUser @Email = 'tom.brady@example.com', @PasswordHash = '0x01';
 
+GO
 
-
-
+CREATE OR ALTER PROCEDURE procGetTeamsForSpecifiedFan
+(
+    @NFLFanID INT
+)
+AS
+BEGIN
+    SELECT 
+        T.TeamName, CD.Conference, CD.Division, T.TeamColors
+    FROM NFLFan F
+    INNER JOIN Team T
+        ON F.NFLFanID = T.TeamID --this needs fixed
+    INNER JOIN ConferenceDivision CD
+        ON T.ConferenceDivisionID = CD.ConferenceDivisionID
+    WHERE F.NFLFanID = @NFLFanID;
+END
+GO
 
 
 
