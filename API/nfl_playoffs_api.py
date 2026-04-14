@@ -5,10 +5,6 @@ from validate_user import validate_user
 
 app = FastAPI()
 
-@app.get("/")
-def home():
-    return {"message": "NFL Playoffs API is running successfully"}
-
 @app.get("/get_teams_by_conference_division")
 def get_teams_by_conference_division_api(conference: str = None, division: str = None):
     return get_teams_by_conference_division(conference=conference, division=division)
