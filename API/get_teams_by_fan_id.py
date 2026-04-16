@@ -1,16 +1,14 @@
 from get_db_connection import get_db_connection
 import pymssql
 
-def get_teams_by_conference_division(
-        conference: str = None, 
-        division: str = None
+def get_teams_by_fan_id(
+        fan_id: int
     ):
     #with get_db_connection() as conn:
     conn = get_db_connection()
     cursor = conn.cursor(as_dict=True)
-    #cursor.execute( "{call procGetTeamsByConferenceDivision(?, ?)}", (conference, division))
-    cursor.callproc("procGetTeamsByConferenceDivision", (conference, division))
-    #cursor.execute("exec procGetTeamsByConferenceDivision @Conference=%s, @Division=%s", (conference, division))
+    #cursor.callproc("procGetTeamsByFanID", (fan_id))
+    cursor.execute("exec procGetTeamsByFanID %s", (fan_id,))
     rows = cursor.fetchall()
     conn.close()
 
@@ -20,10 +18,10 @@ def get_teams_by_conference_division(
             "TeamName": row["TeamName"],
             "Conference": row["Conference"],
             "Division": row["Division"],
-            "TeamColors": row["TeamColors"]
+            "TeamColors": row["TeamColors"],
+            "PrimaryTeam": row["PrimaryTeam"]
         }
         for row in rows
     ]
 
     return {"data": results}
-   
