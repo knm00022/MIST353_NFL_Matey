@@ -10,7 +10,7 @@ def get_teams_by_conference_division(
     cursor = conn.cursor(as_dict=True)
     #cursor.execute( "{call procGetTeamsByConferenceDivision(?, ?)}", (conference, division))
     cursor.callproc("procGetTeamsByConferenceDivision", (conference, division))
-    #cursor.execute("exec procGetTeamsByConferenceDivision @Conference=%s, @Division=%s", (conference, division))
+    #2 or more params, and no params, use callproc
     rows = cursor.fetchall()
     conn.close()
 

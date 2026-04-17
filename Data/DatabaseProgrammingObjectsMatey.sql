@@ -47,39 +47,9 @@ BEGIN
       AND OtherTeam.TeamName != @TeamName;
 END;
 GO
-EXEC dbo.procGetTeamsInSameConferenceDivisionAsSpecifiedTeam
-    @TeamName = 'Miami Dolphins';
+-- EXEC dbo.procGetTeamsInSameConferenceDivisionAsSpecifiedTeam
+--     @TeamName = 'Miami Dolphins';
 
-
--- go 
-select * from Team;
-declare @myTeamName nvarchar(50) = 'Pittsburgh Steelers';
-select OtherTeam.TeamName
-from Team MyTeam inner join Team OtherTeam
-on MyTeam.ConferenceDivisionID = OtherTeam.ConferenceDivisionID --this pairs up the teams based on their ConferenceDivisionID, it allows us to find all the teams that are in the same division as the specified team
-where MyTeam.TeamName = @myTeamName -- filters the results to only include rows where the TeamName column in the MyTeam table is equal to the value of the @myTeamName variable, it allows us to find the ConferenceDivisionID for the specified team
-and OtherTeam.TeamName != @myTeamName; -- this is a command to filter the results to only include rows where the TeamName column in the OtherTeam table is equal to the value of the @myTeamName variable, it allows us to find the ConferenceDivisionID for the specified team and then find all other teams that have the same ConferenceDivisionID (i.e., all teams in the same division as the specified team)
-
-
---Find all teams in my team’s division (user optionally provides their team name)
--- Add ConferenceName and DivisionName
-
-go 
-select * from Team;
-declare @myTeamName nvarchar(50) = 'Miami Dolphins';
-select OtherTeam.TeamName, ConferenceDivision.Conference, ConferenceDivision.Division
-from Team MyTeam inner join Team OtherTeam
-on MyTeam.ConferenceDivisionID = OtherTeam.ConferenceDivisionID 
-inner join ConferenceDivision -- this joins the ConferenceDivision table to the results of the previous join, it allows us to get the conference and division information for the teams we are selecting
-on MyTeam.ConferenceDivisionID = ConferenceDivision.ConferenceDivisionID -- this joins the ConferenceDivision table so we can display the Conference and Division names 
-where MyTeam.TeamName = @myTeamName 
-and OtherTeam.TeamName != @myTeamName; 
-
--- Added: these added the Conference and Division names to the results of the query
--- select: ConferenceDivision.Conference, ConferenceDivision.Division
--- inner join ConferenceDivision 
--- on MyTeam.ConferenceDivisionID = ConferenceDivision.ConferenceDivisionID 
- 
  GO
 
  create or alter procedure procValidateUser
@@ -99,43 +69,57 @@ END
 
 GO
 
-CREATE OR ALTER PROCEDURE procGetTeamsForSpecifiedFan
+create or alter procedure procGetTeamsForSpecifiedFan
 (
     @NFLFanID INT
 )
 AS
 BEGIN
-    SELECT 
-        T.TeamName, CD.Conference, CD.Division, T.TeamColors
-    FROM NFLFan F
-    INNER JOIN FanTeam FT
-        ON F.NFLFanID = FT.NFLFanID
-    INNER JOIN Team T
-        ON FT.TeamID = T.TeamID
-    INNER JOIN ConferenceDivision CD
-        ON T.ConferenceDivisionID = CD.ConferenceDivisionID
-    WHERE F.NFLFanID = @NFLFanID;
-END
+    select T.TeamName, CD.Conference, CD.Division, T.TeamColors, FT.PrimaryTeam
+    from FanTeam FT inner join Team T
+        on FT.TeamID = T.TeamID
+        inner join ConferenceDivision CD
+        on T.ConferenceDivisionID = CD.ConferenceDivisionID
+    where FT.NFLFanID = @NFLFanID;
+end;
 
 -- execute procGetTeamsForSpecifiedFan @NFLFanID = 1;
 -- execute procGetTeamsForSpecifiedFan @NFLFanID = 2;
 
+-- -- go 
+-- select * from Team;
+-- declare @myTeamName nvarchar(50) = 'Pittsburgh Steelers';
+-- select OtherTeam.TeamName
+-- from Team MyTeam inner join Team OtherTeam
+-- on MyTeam.ConferenceDivisionID = OtherTeam.ConferenceDivisionID --this pairs up the teams based on their ConferenceDivisionID, it allows us to find all the teams that are in the same division as the specified team
+-- where MyTeam.TeamName = @myTeamName -- filters the results to only include rows where the TeamName column in the MyTeam table is equal to the value of the @myTeamName variable, it allows us to find the ConferenceDivisionID for the specified team
+-- and OtherTeam.TeamName != @myTeamName; -- this is a command to filter the results to only include rows where the TeamName column in the OtherTeam table is equal to the value of the @myTeamName variable, it allows us to find the ConferenceDivisionID for the specified team and then find all other teams that have the same ConferenceDivisionID (i.e., all teams in the same division as the specified team)
 
-create or alter procedure procGetTeamsByFanID
-@FanID INT
-AS
-BEGIN
-select T.TeamName, CD. Conference, CD.Division, T.TeamColors, FT.PrimaryTeam 
-from FanTeam FT inner join Team T
-on FT. TeamID = T.TeamID
-inner join ConferenceDivision CD
-on T.ConferenceDivisionID = CD.ConferenceDivisionID
-where FT.NFLFanID = @FanID;
-END
 
--- execute procGetTeamsByFanID @FanID = 1;
--- execute procGetTeamsByFanID @FanID = 2;
--- execute procGetTeamsByFanID @FanID = 3;
+--Find all teams in my team’s division (user optionally provides their team name)
+-- Add ConferenceName and DivisionName
+
+-- go 
+-- select * from Team;
+-- declare @myTeamName nvarchar(50) = 'Miami Dolphins';
+-- select OtherTeam.TeamName, ConferenceDivision.Conference, ConferenceDivision.Division
+-- from Team MyTeam inner join Team OtherTeam
+-- on MyTeam.ConferenceDivisionID = OtherTeam.ConferenceDivisionID 
+-- inner join ConferenceDivision -- this joins the ConferenceDivision table to the results of the previous join, it allows us to get the conference and division information for the teams we are selecting
+-- on MyTeam.ConferenceDivisionID = ConferenceDivision.ConferenceDivisionID -- this joins the ConferenceDivision table so we can display the Conference and Division names 
+-- where MyTeam.TeamName = @myTeamName 
+-- and OtherTeam.TeamName != @myTeamName; 
+
+-- Added: these added the Conference and Division names to the results of the query
+-- select: ConferenceDivision.Conference, ConferenceDivision.Division
+-- inner join ConferenceDivision 
+-- on MyTeam.ConferenceDivisionID = ConferenceDivision.ConferenceDivisionID 
+ 
+
+
+
+
+
 
 
 
