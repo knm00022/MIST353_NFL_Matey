@@ -3,3 +3,7 @@ ERD on Lucid: https://lucid.app/lucidchart/f79d99bf-9932-4a4f-95bf-7c382c12e5b2/
 Azure SQL Server name: mist353-server-matey
 
 Azure SQL Database name: mist353-nfl-matey
+
+API: https://mist353-api-matey.azurewebsites.net/docs
+
+UI: https://mist353-ui-matey.streamlit.app/
