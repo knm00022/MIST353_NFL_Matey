@@ -15,7 +15,7 @@ def get_teams_by_conference_division(
     conn.close()
 
     #Convert pymssql.Row objects to dicts
-    results = [
+    results = [ 
         {
             "TeamName": row["TeamName"],
             "Conference": row["Conference"],

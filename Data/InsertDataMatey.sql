@@ -277,7 +277,7 @@ execute procScheduleGame
 
 -- go
 
-
+-- select * from NFLAdmin;
 -- select * from AdminChangesTracker order by AdminChangesTrackerID desc;
 -- select * from Game order by GameID desc;
 -- select N.NFLAdminID, U.Firstname, U.LastName from NFLAdmin N inner join APPUser U on N.NFLAdminID = U.AppUserID
