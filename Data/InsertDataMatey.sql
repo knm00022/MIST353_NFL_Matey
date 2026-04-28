@@ -1,9 +1,8 @@
--- Insert Data
--- Insert all the ConferenceDivision data (8 rows) 
--- Insert data for AFC North (4 rows) 
 
 --use MIST353_NFL_RDB_Matey;
 --use [mist353-nfl-matey];
+GO
+
 insert into ConferenceDivision(Conference, Division)
 values ('AFC', 'North'),
        ('AFC', 'South'),
@@ -20,10 +19,10 @@ Go
 GO
 insert Team (TeamName, TeamCityState, TeamColors, ConferenceDivisionID)
 -- seperated by conference and division for readability, but it is not necessary to do so, you could insert all the data in one statement if you wanted to (but it would be harder to read and maintain)
-values ('Baltimore Ravens', 'Baltimore, MD', 'Purple, Black', 1),
-       ('Cleveland Browns', 'Cleveland, OH', 'Brown, White', 1),
-       ('Pittsburgh Steelers', 'Pittsburgh, PA', 'Yellow, Black', 1),
-       ('Cincinnati Bengals', 'Cincinnati, OH', 'Orange, Black', 1),
+values ('Baltimore Ravens', 'Baltimore, MD', 'Purple, Black, Metallic Gold', 1),
+       ('Cincinnati Bengals', 'Cincinnati, OH', 'Black, Orange, White', 1),
+       ('Cleveland Browns', 'Cleveland, OH', 'Brown, Orange, White', 1),
+       ('Pittsburgh Steelers', 'Pittsburgh, PA', 'Black, Gold, White', 1),
 
        ('Houston Texans', 'Houston, TX', 'Red, White', 2),
        ('Jacksonville Jaguars', 'Jacksonville, FL', 'Blue, White, Gold', 2),
@@ -265,10 +264,22 @@ VALUES
     (6, 10, '2026-04-23 02:14:45.890', 'Insert', 'Sean McVay scheduled a new game with GameID 10: Chicago Bears vs Los Angeles Rams on 2026-01-18 at 18:30:00.0000000 in stadium  Soldier Field. Game round: Divisional'),
     (7, 10, '2026-04-23 02:14:49.420', 'Update', 'Scores updated by Mike Tomlin for GameID=10: Home=Chicago Bears (17), Away=Los Angeles Rams (20), WinningTeam=Los Angeles Rams');
 
+go
+
+execute procScheduleGame 
+    @HomeTeamID = 13, 
+    @AwayTeamID = 11, 
+    @GameRound = 'Conference', 
+    @GameDate = '2026-01-25', 
+    @GameStartTime = '15:30', 
+    @StadiumID = 13, 
+    @NFLAdminID = 5;
+
+-- go
 
 
--- select * from AdminChangesTracker
--- select * from Game
+-- select * from AdminChangesTracker order by AdminChangesTrackerID desc;
+-- select * from Game order by GameID desc;
 -- select N.NFLAdminID, U.Firstname, U.LastName from NFLAdmin N inner join APPUser U on N.NFLAdminID = U.AppUserID
 
 -- =============================================
@@ -286,17 +297,27 @@ VALUES
     @StadiumID = 13, -- Empower Field at Mile High
     @NFLAdminID = 5; -- Bill Belichick
 
-
-    @GameID = 11, 
+execute procEnterScores
+    @GameID = 14, 
     @HomeTeamScore = 7,
     @AwayTeamScore = 10,
-    @NFLAdminID = 6; -- Sean McVay
+    @NFLAdminID = 6; 
+go
+    -- Sean McVay
 */
+
+
+
+-- select * from Game order by GameID desc;
+-- SELECT * FROM AdminChangesTracker ORDER BY AdminChangesTrackerID DESC;
+
 
 
 -- NFC Championship: (5) LA Rams at (1) Seattle Seahawks
 -- Seahawks win 31-27
 /*
+
+execute procScheduleGame
     @GameRound = 'Conference',
     @HomeTeamID = 32, -- Seattle Seahawks
     @AwayTeamID = 30, -- LA Rams
@@ -304,11 +325,17 @@ VALUES
     @GameStartTime = '18:30',
     @StadiumID = 30, -- Lumen Field
     @NFLAdminID = 6; -- Sean McVay
+go
 
-    @GameID = 12,
+execute procEnterScores
+    @GameID = 15,
     @HomeTeamScore = 31,
     @AwayTeamScore = 27,
     @NFLAdminID = 7; -- Mike Tomlin
+go
+
+-- select * from Game order by GameID desc;
+-- SELECT * FROM AdminChangesTracker ORDER BY AdminChangesTrackerID DESC;
 */
 
 -- =============================================
@@ -319,6 +346,8 @@ VALUES
 -- =============================================
 
 /*
+
+execute procScheduleGame
     @GameRound = 'Super Bowl',
     @HomeTeamID = 32, -- Seattle Seahawks (NFC champion, designated home team)
     @AwayTeamID = 11, -- New England Patriots (AFC champion)
@@ -326,10 +355,14 @@ VALUES
     @GameStartTime = '18:30',
     @StadiumID = 29, -- Levi's Stadium (neutral site)
     @NFLAdminID = 5; -- Bill Belichick
+go
 
-    @GameID = 13,  
+execute procEnterScores
+    @GameID = 16,  
     @HomeTeamScore = 29,
     @AwayTeamScore = 13,
     @NFLAdminID = 8; -- Mike Tomlin
-
+go
 */
+-- select * from Game order by GameID desc;
+-- SELECT * FROM AdminChangesTracker ORDER BY AdminChangesTrackerID DESC;

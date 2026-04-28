@@ -1,8 +1,8 @@
--- 3 queries
--- 1 each for ConferenceDivision and Team tables, and 1 join query
 
 -- MIST353_NFL_RDB_Matey;
 --Use [mist353-nfl-matey]; 
+
+GO
 
 CREATE OR ALTER PROCEDURE dbo.procGetTeamsByConferenceDivision
 (
@@ -191,6 +191,82 @@ END
 
 
 
+GO
+
+CREATE OR ALTER PROCEDURE procEnterScores
+(
+    @GameID INT,
+    @HomeTeamScore INT,
+    @AwayTeamScore INT,
+    @NFLAdminID INT
+)
+AS
+BEGIN
+    DECLARE @WinningTeamID INT;
+
+    SELECT @WinningTeamID =
+        CASE
+            WHEN @HomeTeamScore > @AwayTeamScore THEN HomeTeamID
+            WHEN @AwayTeamScore > @HomeTeamScore THEN AwayTeamID
+            ELSE NULL
+        END
+    FROM Game
+    WHERE GameID = @GameID;
+
+    DECLARE @context VARBINARY(128) = CAST(@NFLAdminID AS VARBINARY(128));
+    SET CONTEXT_INFO @context;
+
+    UPDATE Game
+    SET HomeTeamScore = @HomeTeamScore,
+        AwayTeamScore = @AwayTeamScore,
+        WinningTeamID = @WinningTeamID
+    WHERE GameID = @GameID;
+END
+
+
+GO
+
+CREATE OR ALTER TRIGGER trgTrackChangesOnEnteringScores
+ON Game
+AFTER UPDATE
+AS
+BEGIN
+    DECLARE @NFLAdminID INT;
+    DECLARE @GameID INT;
+    DECLARE @ChangeType NVARCHAR(50);
+    DECLARE @ChangeDescription NVARCHAR(500);
+    DECLARE @HomeTeamScore INT;
+    DECLARE @AwayTeamScore INT;
+    DECLARE @HomeTeamID INT;
+    DECLARE @AwayTeamID INT;
+    DECLARE @HomeTeamName NVARCHAR(50);
+    DECLARE @AwayTeamName NVARCHAR(50);
+
+    SET @NFLAdminID = CONVERT(INT, CONVERT(BINARY(4), CONTEXT_INFO()));
+
+    SELECT 
+        @GameID = GameID,
+        @HomeTeamScore = HomeTeamScore,
+        @AwayTeamScore = AwayTeamScore,
+        @HomeTeamID = HomeTeamID,
+        @AwayTeamID = AwayTeamID
+    FROM inserted;
+
+    SELECT @HomeTeamName = TeamName FROM Team WHERE TeamID = @HomeTeamID;
+    SELECT @AwayTeamName = TeamName FROM Team WHERE TeamID = @AwayTeamID;
+
+    SET @ChangeType = 'Update';
+
+    SET @ChangeDescription = 'Scores updated for GameID=' + CAST(@GameID AS NVARCHAR(50)) + ': '
+        + @HomeTeamName + ' scored ' + CAST(@HomeTeamScore AS NVARCHAR(50)) + ', '
+        + @AwayTeamName + ' scored ' + CAST(@AwayTeamScore AS NVARCHAR(50));
+
+    INSERT INTO AdminChangesTracker (NFLAdminID, GameID, ChangeType, ChangeDescription)
+    VALUES (@NFLAdminID, @GameID, @ChangeType, @ChangeDescription);
+END
+GO
+
+
 
 
 
@@ -223,16 +299,6 @@ END
 -- inner join ConferenceDivision 
 -- on MyTeam.ConferenceDivisionID = ConferenceDivision.ConferenceDivisionID 
  
-
-
-
-
-
-
-
-
-
-
 
 
 

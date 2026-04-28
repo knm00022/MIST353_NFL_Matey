@@ -3,4 +3,4 @@ fastapi
 uvicorn[standard]
 python-dotenv
 pymssql # discuss why
-pyodbc # and why not
+#pyodbc # and why not
