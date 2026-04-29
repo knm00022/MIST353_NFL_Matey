@@ -1,4 +1,4 @@
-from fastapi import params
+#from fastapi import params
 import streamlit as st
 import requests
 import pandas as pd
