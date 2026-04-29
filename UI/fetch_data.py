@@ -3,7 +3,8 @@ import streamlit as st
 import requests
 import pandas as pd
  
-FASTAPI_URL = "http://localhost:8000"  # Adjust if your API is hosted elsewhere
+FASTAPI_URL = "https://mist353-api-matey.azurewebsites.net"  # Adjust if your API is hosted elsewhere
+#"http://localhost:8000"
 #"https://mist353-api-matey.azurewebsites.net"
 
 def fetch_data(endpoint: str, input_params: dict, method: str = "GET"):
