@@ -266,9 +266,39 @@ BEGIN
 END
 GO
 
+GO
 
+CREATE OR ALTER PROCEDURE procGetAllChangesMadeBySpecifiedAdmin
+(
+    @NFLAdminID INT
+)
+AS
+BEGIN
+    SELECT 
+        ACT.ChangeDateTime,
+        ACT.ChangeType,
+        ACT.ChangeDescription,
+        G.GameRound,
+        G.GameDate,
+        G.GameStartTime,
+        HT.TeamName AS HomeTeam,
+        AT.TeamName AS AwayTeam,
+        S.StadiumName
+    FROM AdminChangesTracker ACT
+    INNER JOIN Game G
+        ON ACT.GameID = G.GameID
+    INNER JOIN Team HT
+        ON G.HomeTeamID = HT.TeamID
+    INNER JOIN Team AT
+        ON G.AwayTeamID = AT.TeamID
+    INNER JOIN Stadium S
+        ON G.StadiumID = S.StadiumID
+    WHERE ACT.NFLAdminID = @NFLAdminID
+    ORDER BY ACT.ChangeDateTime DESC;
+END
+GO
 
-
+-- EXEC procGetAllChangesMadeBySpecifiedAdmin @NFLAdminID = 5;
 
 -- -- go 
 -- select * from Team;
