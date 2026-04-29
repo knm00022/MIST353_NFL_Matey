@@ -3,7 +3,7 @@ from get_teams_by_conference_division_ui import get_teams_by_conference_division
 from get_teams_in_same_conference_division_as_specified_team_ui import get_teams_in_same_conference_division_as_specified_team_ui
 from validate_user_ui import validate_user_ui
 from get_teams_for_specified_fan_ui import get_teams_for_specified_fan_ui
-from fetch_data import post_data
+#from fetch_data import post_data
 from schedule_game_ui import schedule_game_ui
 
 st.title("NFL Playoffs App")
