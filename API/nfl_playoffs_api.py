@@ -9,6 +9,7 @@ from datetime import date, time
 from get_all_teams import get_all_teams
 from get_all_stadiums import get_all_stadiums
 from get_all_changes_made_by_specified_admin import get_all_changes_made_by_specified_admin
+from get_teams_with_logos_for_specified_fan import get_teams_with_logos_for_specified_fan
 
 app = FastAPI()
 
@@ -59,3 +60,7 @@ def get_all_stadiums_api():
 @app.get("/get_all_changes_made_by_specified_admin/")
 def get_all_changes_made_by_specified_admin_api(nfl_admin_id: int):
     return get_all_changes_made_by_specified_admin(nfl_admin_id=nfl_admin_id)
+
+@app.get("/get_teams_with_logos_for_specified_fan/")
+def get_teams_with_logos_for_specified_fan_api(fan_id: int):
+    return get_teams_with_logos_for_specified_fan(fan_id=fan_id)
