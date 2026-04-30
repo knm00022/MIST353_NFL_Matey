@@ -1,7 +1,9 @@
 import streamlit as st
 from fetch_data import get_data
 
+
 def get_all_changes_made_by_specified_admin_ui():
+    
 
     if "app_user_id" not in st.session_state or "app_user_fullname" not in st.session_state:
         st.warning("Please validate the user first.")
@@ -18,7 +20,8 @@ def get_all_changes_made_by_specified_admin_ui():
 
     input_parameters = {"nfl_admin_id": admin_id}
 
-    df = get_data("get_all_changes_made_by_specified_admin/", input_parameters)
+    if st.button("Get My Changes"):
+        df = get_data("get_all_changes_made_by_specified_admin/", input_parameters)
 
     if df is not None and not df.empty:
         st.dataframe(df, width="stretch", hide_index=True)

@@ -41,7 +41,7 @@ elif api_endpoint == "Schedule a Game":
      else:
           schedule_game_ui()
 
-elif api_endpoint == "Get All Changes Made By Admin":
+elif api_endpoint == "Get All Changes Made by Specified Admin":
      if "app_user_id" not in st.session_state:
            st.warning("Please log in to access this functionality.")
      elif st.session_state.app_user_role != "NFLAdmin":
