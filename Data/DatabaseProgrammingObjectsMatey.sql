@@ -66,6 +66,7 @@ PasswordHash = Convert(VARBINARY(200), @PasswordHash, 1);
 
 END
 -- EXEC procValidateUser @Email = 'tom.brady@example.com', @PasswordHash = '0x01';
+-- EXEC procValidateUser @Email = 'bill.belichick@example.com', @PasswordHash = '0x01';
 
 GO
 

@@ -33,9 +33,9 @@ elif api_endpoint == "Get Teams for Specified Fan":
      get_teams_for_specified_fan_ui()
 
 elif api_endpoint == "Schedule a Game":
-     if "app user_id" not in st.session_state:
-           st.warning("Please log in to access this functionality.")
-     elif st.session_state.app_user_id is None:
-           st.warning("Please log in to access this functionality.")
+     if "app_user_id" not in st.session_state:
+           st.warning("Please log in to access the Schedule a Game functionality.")
+     elif st.session_state.app_user_role != "NFLAdmin":
+           st.warning("Only users with the NFL Admin role can access the Schedule a Game functionality.")
      else:
-     schedule_game_ui()
+          schedule_game_ui()
