@@ -22,8 +22,10 @@ def get_teams_with_logos_for_specified_fan_ui():
                 col1, col2 = st.columns([1, 4])
 
                 with col1:
-                    if row["TeamLogo"] is not None and str(row["TeamLogo"]).strip() != "":
-                        logo_bytes = base64.b64decode(row["TeamLogo"])
+                    team_logo = row["TeamLogo"]
+
+                    if team_logo is not None and str(team_logo) != "nan" and str(team_logo).strip() != "":
+                        logo_bytes = base64.b64decode(team_logo)
                         st.image(logo_bytes, width=70)
                     else:
                         st.write("No logo")
