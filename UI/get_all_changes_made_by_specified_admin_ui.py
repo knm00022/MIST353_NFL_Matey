@@ -23,7 +23,7 @@ def get_all_changes_made_by_specified_admin_ui():
     if st.button("Get My Changes"):
         df = get_data("get_all_changes_made_by_specified_admin/", input_parameters)
 
-    if df is not None and not df.empty:
-        st.dataframe(df, width="stretch", hide_index=True)
-    else:
-        st.info("No changes found for this admin.")
+        if df is not None and not df.empty:
+            st.dataframe(df, width="stretch", hide_index=True)
+        else:
+            st.info("No changes found for this admin.")
