@@ -1,5 +1,5 @@
 import streamlit as st
-from fetch_data import fetch_data #needed to add this 
+from fetch_data import get_data #needed to add this 
 
 def get_teams_by_conference_division_ui():
 
@@ -20,7 +20,7 @@ def get_teams_by_conference_division_ui():
         if division.strip():
             input_params["division"] = division
         #define fetch_data function and call it with input_params
-        df = fetch_data("get_teams_by_conference_division/", input_params)
+        df = get_data("get_teams_by_conference_division/", input_params)
 
         if df is not None and not df.empty:
             st.subheader(f"Teams in conference {conference} and division {division}:")

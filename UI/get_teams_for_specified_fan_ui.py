@@ -1,5 +1,5 @@
 import streamlit as st
-from fetch_data import fetch_data
+from fetch_data import get_data
 
 def get_teams_for_specified_fan_ui():
 
@@ -14,7 +14,7 @@ def get_teams_for_specified_fan_ui():
 
     input_parameters = {"fan_id": fan_id}
 
-    df = fetch_data("get_teams_for_specified_fan/", input_parameters)
+    df = get_data("get_teams_for_specified_fan/", input_parameters)
 
     if df is not None and not df.empty:
         st.dataframe(df, width="stretch", hide_index=True)
